@@ -10,30 +10,35 @@ const riskZoneStyles: Record<
 > = {
   low: {
     label: "Bajo Riesgo",
-    className: "border-green-300 bg-green-50 text-green-800",
+    className:
+      "border-green-300 bg-green-50 text-green-800 dark:border-green-700 dark:bg-green-950 dark:text-green-300",
   },
   "intermediate-low": {
     label: "Riesgo Intermedio-Bajo",
-    className: "border-yellow-300 bg-yellow-50 text-yellow-800",
+    className:
+      "border-yellow-300 bg-yellow-50 text-yellow-800 dark:border-yellow-700 dark:bg-yellow-950 dark:text-yellow-300",
   },
   "intermediate-high": {
     label: "Riesgo Intermedio-Alto",
-    className: "border-orange-300 bg-orange-50 text-orange-800",
+    className:
+      "border-orange-300 bg-orange-50 text-orange-800 dark:border-orange-700 dark:bg-orange-950 dark:text-orange-300",
   },
   high: {
     label: "Alto Riesgo",
-    className: "border-red-300 bg-red-50 text-red-800",
+    className:
+      "border-red-300 bg-red-50 text-red-800 dark:border-red-700 dark:bg-red-950 dark:text-red-300",
   },
   unknown: {
     label: "Zona no determinada",
-    className: "border-slate-300 bg-slate-50 text-slate-700",
+    className:
+      "border-slate-300 bg-slate-50 text-slate-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300",
   },
 };
 
 export default function RiskCard({ result }: RiskCardProps) {
   if (!result) {
     return (
-      <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-slate-500">
+      <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-slate-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-400">
         <p className="font-medium">Sin evaluación aún</p>
         <p className="text-sm">
           Completa el formulario y presiona &quot;Evaluar&quot; para ver el
@@ -74,7 +79,7 @@ export default function RiskCard({ result }: RiskCardProps) {
       {result.escalationWarning && (
         <p
           role="alert"
-          className="rounded-md border border-red-400 bg-red-100 p-2 text-sm font-semibold text-red-800"
+          className="rounded-md border border-red-400 bg-red-100 p-2 text-sm font-semibold text-red-800 dark:border-red-600 dark:bg-red-900 dark:text-red-200"
         >
           Escalación de cuidados: valor cercano al umbral de recambio
           sanguíneo.

@@ -88,10 +88,10 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
+      className="flex flex-col gap-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800"
       aria-label="Formulario de datos clínicos del paciente"
     >
-      <h2 className="text-lg font-semibold text-slate-900">
+      <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
         Parámetros Clínicos
       </h2>
 
@@ -99,7 +99,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
       <div className="flex flex-col gap-1">
         <label
           htmlFor="postnatalAgeHours"
-          className="text-sm font-medium text-slate-700"
+          className="text-sm font-medium text-slate-700 dark:text-slate-300"
         >
           Edad Posnatal (horas de vida)
         </label>
@@ -114,11 +114,15 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
           onChange={(e) => setPostnatalAgeHours(e.target.value)}
           aria-describedby="postnatalAgeHours-error"
           aria-invalid={Boolean(errors.postnatalAgeHours)}
-          className="rounded-md border border-slate-300 px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
           placeholder={`${MIN_HOURS} - ${MAX_HOURS}`}
         />
         {errors.postnatalAgeHours && (
-          <p id="postnatalAgeHours-error" className="text-sm text-red-600">
+          <p
+            id="postnatalAgeHours-error"
+            role="alert"
+            className="text-sm text-red-600 dark:text-red-400"
+          >
             {errors.postnatalAgeHours}
           </p>
         )}
@@ -128,7 +132,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
       <div className="flex flex-col gap-1">
         <label
           htmlFor="bilirubinValue"
-          className="text-sm font-medium text-slate-700"
+          className="text-sm font-medium text-slate-700 dark:text-slate-300"
         >
           Nivel de Bilirrubina
         </label>
@@ -143,21 +147,25 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
             onChange={(e) => setBilirubinValue(e.target.value)}
             aria-describedby="bilirubinValue-error"
             aria-invalid={Boolean(errors.bilirubinValue)}
-            className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+            className="flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
             placeholder="Valor"
           />
           <select
             aria-label="Unidad de bilirrubina"
             value={bilirubinUnit}
             onChange={(e) => setBilirubinUnit(e.target.value as BilirubinUnit)}
-            className="rounded-md border border-slate-300 px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+            className="rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
           >
             <option value="mgdL">mg/dL</option>
             <option value="umolL">µmol/L</option>
           </select>
         </div>
         {errors.bilirubinValue && (
-          <p id="bilirubinValue-error" className="text-sm text-red-600">
+          <p
+            id="bilirubinValue-error"
+            role="alert"
+            className="text-sm text-red-600 dark:text-red-400"
+          >
             {errors.bilirubinValue}
           </p>
         )}
@@ -165,11 +173,11 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
 
       {/* Tipo de Medición */}
       <fieldset className="flex flex-col gap-2">
-        <legend className="text-sm font-medium text-slate-700">
+        <legend className="text-sm font-medium text-slate-700 dark:text-slate-300">
           Tipo de Medición
         </legend>
         <div className="flex gap-4">
-          <label className="flex items-center gap-2 text-sm text-slate-700">
+          <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
             <input
               type="radio"
               name="measurementType"
@@ -179,7 +187,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
             />
             Bilirrubina Transcutánea (TcB)
           </label>
-          <label className="flex items-center gap-2 text-sm text-slate-700">
+          <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
             <input
               type="radio"
               name="measurementType"
@@ -196,7 +204,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
       <div className="flex flex-col gap-1">
         <label
           htmlFor="gestationalAge"
-          className="text-sm font-medium text-slate-700"
+          className="text-sm font-medium text-slate-700 dark:text-slate-300"
         >
           Edad Gestacional al Nacer
         </label>
@@ -207,14 +215,17 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
           onChange={(e) =>
             setGestationalAge(e.target.value as GestationalAge)
           }
-          className="rounded-md border border-slate-300 px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
         >
           <option value="<35">&lt; 35 semanas (Prematuro)</option>
           <option value="35-37">35 - 37.6 semanas (Prematuro tardío)</option>
           <option value=">=38">&ge; 38 semanas (A término)</option>
         </select>
         {gestationalAge === "<35" && (
-          <p role="alert" className="text-sm text-amber-700">
+          <p
+            role="alert"
+            className="text-sm text-amber-700 dark:text-amber-400"
+          >
             Advertencia: para neonatos &lt;35 semanas se aplican protocolos
             específicos de UCIN y una tabla reducida de fototerapia.
           </p>
@@ -223,10 +234,10 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
 
       {/* Factores de Riesgo Neurotóxico */}
       <fieldset className="flex flex-col gap-2">
-        <legend className="text-sm font-medium text-slate-700">
+        <legend className="text-sm font-medium text-slate-700 dark:text-slate-300">
           Factores de Riesgo Neurotóxico
         </legend>
-        <label className="flex items-center gap-2 text-sm text-slate-700">
+        <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
           <input
             type="checkbox"
             checked={riskFactors.coombs}
@@ -234,7 +245,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
           />
           Prueba de Coombs directa positiva / Incompatibilidad ABO o Rh
         </label>
-        <label className="flex items-center gap-2 text-sm text-slate-700">
+        <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
           <input
             type="checkbox"
             checked={riskFactors.g6pd}
@@ -242,7 +253,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
           />
           Deficiencia de G6PD o hemólisis conocida
         </label>
-        <label className="flex items-center gap-2 text-sm text-slate-700">
+        <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
           <input
             type="checkbox"
             checked={riskFactors.clinicalInstability}
@@ -251,7 +262,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
           Inestabilidad clínica en las últimas 24 h (Sepsis, asfixia,
           acidosis)
         </label>
-        <label className="flex items-center gap-2 text-sm text-slate-700">
+        <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
           <input
             type="checkbox"
             checked={riskFactors.albumin}
@@ -263,7 +274,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
 
       <button
         type="submit"
-        className="mt-2 rounded-md bg-sky-600 px-4 py-2 font-medium text-white transition-colors hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+        className="mt-2 rounded-md bg-sky-600 px-4 py-2 font-medium text-white transition-colors hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 dark:bg-sky-500 dark:hover:bg-sky-600"
       >
         Evaluar
       </button>
