@@ -3,15 +3,14 @@
 import { useState } from "react";
 import PatientForm from "@/components/PatientForm";
 import RiskCard from "@/components/RiskCard";
+import { evaluatePatient } from "@/lib/clinical-logic";
 import type { ClinicalResult, PatientData } from "@/lib/types";
 
 export default function Home() {
   const [result, setResult] = useState<ClinicalResult | null>(null);
 
   function handleSubmit(data: PatientData) {
-    // La lógica clínica real (evaluatePatient) se implementará en la Fase 2.
-    console.log("Datos del paciente recibidos:", data);
-    setResult(null);
+    setResult(evaluatePatient(data));
   }
 
   return (
