@@ -15,11 +15,13 @@ const UMOLL_TO_MGDL = 17.1;
 /** Margen (mg/dL) por debajo del umbral de recambio para disparar la escalación. */
 const ESCALATION_MARGIN_MGDL = 2;
 
-function toMgdL(value: number, unit: PatientData["bilirubinUnit"]): number {
+export function toMgdL(value: number, unit: PatientData["bilirubinUnit"]): number {
   return unit === "umolL" ? value / UMOLL_TO_MGDL : value;
 }
 
-function hasAnyRiskFactor(riskFactors: PatientData["riskFactors"]): boolean {
+export function hasAnyRiskFactor(
+  riskFactors: PatientData["riskFactors"],
+): boolean {
   return (
     riskFactors.coombs ||
     riskFactors.g6pd ||

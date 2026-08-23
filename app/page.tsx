@@ -3,13 +3,16 @@
 import { useState } from "react";
 import PatientForm from "@/components/PatientForm";
 import RiskCard from "@/components/RiskCard";
+import BhutaniChart from "@/components/BhutaniChart";
 import { evaluatePatient } from "@/lib/clinical-logic";
 import type { ClinicalResult, PatientData } from "@/lib/types";
 
 export default function Home() {
+  const [patientData, setPatientData] = useState<PatientData | null>(null);
   const [result, setResult] = useState<ClinicalResult | null>(null);
 
   function handleSubmit(data: PatientData) {
+    setPatientData(data);
     setResult(evaluatePatient(data));
   }
 
@@ -29,6 +32,8 @@ export default function Home() {
           <PatientForm onSubmit={handleSubmit} />
           <RiskCard result={result} />
         </div>
+
+        <BhutaniChart patientData={patientData} result={result} />
       </main>
     </div>
   );
