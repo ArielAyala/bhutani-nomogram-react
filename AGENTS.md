@@ -7,3 +7,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+# Reglas del proyecto
+
+- **NO agregar tests unitarios ni ningún framework de testing** (vitest, jest, playwright, testing-library, etc.). La verificación se hace con `npm run build`, `npm run lint` y los casos de prueba comentados en `lib/clinical-logic.ts`. No crear archivos de test ni configuración de testing.
