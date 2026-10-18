@@ -1,5 +1,5 @@
 // Tipos compartidos para la evaluación clínico-nomográmica de ictericia neonatal
-// basada en el Nomograma de Bhutani y las Guías AAP 2022.
+// basada en el Nomograma de Bhutani y las Guías AAP 2004 (Guías 1 y 2).
 
 export type BilirubinUnit = "mgdL" | "umolL";
 
@@ -7,15 +7,28 @@ export type MeasurementType = "TcB" | "TSB";
 
 export type GestationalAge = "<35" | "35-37" | ">=38";
 
+/** Incompatibilidad materno-fetal que activa la regla de tasa de ascenso. */
+export type Incompatibility = "none" | "ABO" | "Rh";
+
 export interface RiskFactors {
-  /** Prueba de Coombs directa positiva / Incompatibilidad ABO o Rh */
-  coombs: boolean;
-  /** Deficiencia de G6PD o hemólisis conocida */
+  /** Enfermedad hemolítica (p. ej. Coombs directa positiva) */
+  hemolyticDisease: boolean;
+  /** Deficiencia de G6PD */
   g6pd: boolean;
-  /** Inestabilidad clínica en las últimas 24 h (Sepsis, asfixia, acidosis) */
-  clinicalInstability: boolean;
+  asphyxia: boolean;
+  significantLethargy: boolean;
+  thermalInstability: boolean;
+  sepsis: boolean;
   /** Albúmina sérica < 3.0 g/dL */
   albumin: boolean;
+  acidosis: boolean;
+}
+
+export interface PreviousBilirubin {
+  /** Valor previo, en la misma unidad que bilirubinValue */
+  value: number;
+  /** Horas transcurridas desde la medición previa */
+  hoursSince: number;
 }
 
 export interface PatientData {
@@ -27,6 +40,11 @@ export interface PatientData {
   measurementType: MeasurementType;
   gestationalAge: GestationalAge;
   riskFactors: RiskFactors;
+  acuteEncephalopathy: boolean;
+  incompatibility: Incompatibility;
+  previousBilirubin: PreviousBilirubin | null;
+  /** Reingreso tras alta previa */
+  rehospitalized: boolean;
 }
 
 export type RiskZone =
@@ -39,8 +57,9 @@ export type RiskZone =
 export interface ClinicalResult {
   riskZone: RiskZone;
   needsPhototherapy: boolean;
-  escalationWarning: boolean;
+  exchangeIndicated: boolean;
   phototherapyThreshold: number | null;
   exchangeThreshold: number | null;
+  warnings: string[];
   recommendation: string;
 }

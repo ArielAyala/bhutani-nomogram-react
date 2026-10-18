@@ -27,7 +27,7 @@ export default function Home() {
               Evaluación Clínico-Nomográmica de Ictericia Neonatal
             </h1>
             <p className="text-sm text-slate-600 dark:text-slate-400">
-              Basado en el Nomograma de Bhutani y las Guías AAP 2022.
+              Basado en el Nomograma de Bhutani y las Guías AAP 2004.
             </p>
           </div>
           <ThemeToggle />

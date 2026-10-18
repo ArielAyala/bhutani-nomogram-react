@@ -76,15 +76,23 @@ export default function RiskCard({ result }: RiskCardProps) {
         </dd>
       </dl>
 
-      {result.escalationWarning && (
+      {result.exchangeIndicated && (
         <p
           role="alert"
           className="rounded-md border border-red-400 bg-red-100 p-2 text-sm font-semibold text-red-800 dark:border-red-600 dark:bg-red-900 dark:text-red-200"
         >
-          Escalación de cuidados: valor cercano al umbral de recambio
-          sanguíneo.
+          Recambio sanguíneo indicado.
         </p>
       )}
+
+      {result.warnings.map((warning) => (
+        <p
+          key={warning}
+          className="rounded-md border border-amber-400 bg-amber-50 p-2 text-sm text-amber-800 dark:border-amber-600 dark:bg-amber-900/40 dark:text-amber-200"
+        >
+          {warning}
+        </p>
+      ))}
 
       {result.recommendation && (
         <p className="mt-2 text-sm font-medium">{result.recommendation}</p>

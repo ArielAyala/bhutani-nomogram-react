@@ -4,6 +4,7 @@ import { useState } from "react";
 import type {
   BilirubinUnit,
   GestationalAge,
+  Incompatibility,
   MeasurementType,
   PatientData,
   RiskFactors,
@@ -13,11 +14,26 @@ const MIN_HOURS = 12;
 const MAX_HOURS = 148;
 
 const initialRiskFactors: RiskFactors = {
-  coombs: false,
+  hemolyticDisease: false,
   g6pd: false,
-  clinicalInstability: false,
+  asphyxia: false,
+  significantLethargy: false,
+  thermalInstability: false,
+  sepsis: false,
   albumin: false,
+  acidosis: false,
 };
+
+const RISK_FACTOR_OPTIONS: { key: keyof RiskFactors; label: string }[] = [
+  { key: "hemolyticDisease", label: "Enfermedad hemolítica (p. ej. Coombs directa positiva)" },
+  { key: "g6pd", label: "Deficiencia de G6PD" },
+  { key: "asphyxia", label: "Asfixia" },
+  { key: "significantLethargy", label: "Letargia significativa" },
+  { key: "thermalInstability", label: "Inestabilidad térmica" },
+  { key: "sepsis", label: "Sepsis" },
+  { key: "albumin", label: "Albúmina sérica < 3.0 g/dL" },
+  { key: "acidosis", label: "Acidosis" },
+];
 
 interface PatientFormProps {
   onSubmit: (data: PatientData) => void;
@@ -26,6 +42,7 @@ interface PatientFormProps {
 interface FormErrors {
   postnatalAgeHours?: string;
   bilirubinValue?: string;
+  previousBilirubin?: string;
 }
 
 export default function PatientForm({ onSubmit }: PatientFormProps) {
@@ -39,6 +56,11 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
   );
   const [riskFactors, setRiskFactors] =
     useState<RiskFactors>(initialRiskFactors);
+  const [acuteEncephalopathy, setAcuteEncephalopathy] = useState<boolean>(false);
+  const [incompatibility, setIncompatibility] = useState<Incompatibility>("none");
+  const [rehospitalized, setRehospitalized] = useState<boolean>(false);
+  const [previousValue, setPreviousValue] = useState<string>("");
+  const [previousHours, setPreviousHours] = useState<string>("");
   const [errors, setErrors] = useState<FormErrors>({});
 
   function toggleRiskFactor(key: keyof RiskFactors) {
@@ -49,6 +71,15 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
     const nextErrors: FormErrors = {};
     const hours = Number(postnatalAgeHours);
     const bilirubin = Number(bilirubinValue);
+    const hasPreviousValue = previousValue.trim() !== "";
+    const hasPreviousHours = previousHours.trim() !== "";
+
+    if (hasPreviousValue !== hasPreviousHours) {
+      nextErrors.previousBilirubin =
+        "Para la tasa de ascenso, ingresa el valor previo y las horas transcurridas.";
+    } else if (hasPreviousValue && Number(previousHours) <= 0) {
+      nextErrors.previousBilirubin = "Las horas desde la medición previa deben ser mayores a 0.";
+    }
 
     if (postnatalAgeHours.trim() === "" || Number.isNaN(hours)) {
       nextErrors.postnatalAgeHours = "Ingresa la edad posnatal en horas.";
@@ -73,6 +104,8 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
       return;
     }
 
+    const hasPrevious = previousValue.trim() !== "";
+
     const data: PatientData = {
       postnatalAgeHours: Number(postnatalAgeHours),
       bilirubinValue: Number(bilirubinValue),
@@ -80,6 +113,15 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
       measurementType,
       gestationalAge,
       riskFactors,
+      acuteEncephalopathy,
+      incompatibility,
+      previousBilirubin: hasPrevious
+        ? {
+            value: Number(previousValue),
+            hoursSince: Number(previousHours),
+          }
+        : null,
+      rehospitalized,
     };
 
     onSubmit(data);
@@ -232,44 +274,103 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
         )}
       </div>
 
+      {/* Incompatibilidad y reingreso */}
+      <div className="flex flex-col gap-1">
+        <label
+          htmlFor="incompatibility"
+          className="text-sm font-medium text-slate-700 dark:text-slate-300"
+        >
+          Incompatibilidad materno-fetal
+        </label>
+        <select
+          id="incompatibility"
+          name="incompatibility"
+          value={incompatibility}
+          onChange={(e) => setIncompatibility(e.target.value as Incompatibility)}
+          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+        >
+          <option value="none">Ninguna</option>
+          <option value="ABO">ABO</option>
+          <option value="Rh">Rh</option>
+        </select>
+      </div>
+
+      <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+        <input
+          type="checkbox"
+          checked={acuteEncephalopathy}
+          onChange={(e) => setAcuteEncephalopathy(e.target.checked)}
+        />
+        Encefalopatía aguda
+      </label>
+
+      <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+        <input
+          type="checkbox"
+          checked={rehospitalized}
+          onChange={(e) => setRehospitalized(e.target.checked)}
+        />
+        Reingreso tras alta previa
+      </label>
+
+      {/* Medición previa (tasa de ascenso) */}
+      <fieldset className="flex flex-col gap-2">
+        <legend className="text-sm font-medium text-slate-700 dark:text-slate-300">
+          Medición previa (opcional, para tasa de ascenso)
+        </legend>
+        <div className="flex gap-2">
+          <input
+            type="number"
+            aria-label="Valor de bilirrubina previa"
+            min={0}
+            step="0.1"
+            value={previousValue}
+            onChange={(e) => setPreviousValue(e.target.value)}
+            aria-describedby={errors.previousBilirubin ? "previousBilirubin-error" : undefined}
+            aria-invalid={Boolean(errors.previousBilirubin)}
+            className="flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+            placeholder="Valor previo (misma unidad)"
+          />
+          <input
+            type="number"
+            aria-label="Horas desde la medición previa"
+            min={0}
+            step="0.5"
+            value={previousHours}
+            onChange={(e) => setPreviousHours(e.target.value)}
+            className="flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+            placeholder="Horas desde la medición"
+          />
+        </div>
+        {errors.previousBilirubin && (
+          <p
+            id="previousBilirubin-error"
+            role="alert"
+            className="text-sm text-red-600 dark:text-red-400"
+          >
+            {errors.previousBilirubin}
+          </p>
+        )}
+      </fieldset>
+
       {/* Factores de Riesgo Neurotóxico */}
       <fieldset className="flex flex-col gap-2">
         <legend className="text-sm font-medium text-slate-700 dark:text-slate-300">
           Factores de Riesgo Neurotóxico
         </legend>
-        <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
-          <input
-            type="checkbox"
-            checked={riskFactors.coombs}
-            onChange={() => toggleRiskFactor("coombs")}
-          />
-          Prueba de Coombs directa positiva / Incompatibilidad ABO o Rh
-        </label>
-        <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
-          <input
-            type="checkbox"
-            checked={riskFactors.g6pd}
-            onChange={() => toggleRiskFactor("g6pd")}
-          />
-          Deficiencia de G6PD o hemólisis conocida
-        </label>
-        <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
-          <input
-            type="checkbox"
-            checked={riskFactors.clinicalInstability}
-            onChange={() => toggleRiskFactor("clinicalInstability")}
-          />
-          Inestabilidad clínica en las últimas 24 h (Sepsis, asfixia,
-          acidosis)
-        </label>
-        <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
-          <input
-            type="checkbox"
-            checked={riskFactors.albumin}
-            onChange={() => toggleRiskFactor("albumin")}
-          />
-          Albúmina sérica &lt; 3.0 g/dL
-        </label>
+        {RISK_FACTOR_OPTIONS.map(({ key, label }) => (
+          <label
+            key={key}
+            className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300"
+          >
+            <input
+              type="checkbox"
+              checked={riskFactors[key]}
+              onChange={() => toggleRiskFactor(key)}
+            />
+            {label}
+          </label>
+        ))}
       </fieldset>
 
       <button

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Bhutani Nomogram — Evaluación de Ictericia Neonatal",
   description:
-    "Evaluación clínico-nomográmica de ictericia neonatal basada en el Nomograma de Bhutani y las Guías AAP 2022.",
+    "Evaluación clínico-nomográmica de ictericia neonatal basada en el Nomograma de Bhutani y las Guías AAP 2004.",
 };
 
 const THEME_INIT_SCRIPT = `
