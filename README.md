@@ -31,6 +31,7 @@ Single-page web application (Next.js App Router) that assesses neonatal jaundice
 - **Recommendation engine** with a defined priority order (see below).
 - **PDF export** of the full report (form, result card and chart), split across pages when needed.
 - **Light / dark theme**.
+- **Usage notice**: on the first visit in each browser, a modal shows the educational-use notice, which must be accepted with "Entendido" before using the app.
 
 ### Recommendation priority
 

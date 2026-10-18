@@ -31,6 +31,7 @@ Aplicación web de una sola página (Next.js App Router) que evalúa la icterici
 - **Motor de recomendaciones** con un orden de prioridad definido (ver más abajo).
 - **Exportación a PDF** del reporte completo (formulario, tarjeta de resultado y gráfica), dividido en páginas cuando es necesario.
 - **Tema claro / oscuro**.
+- **Aviso de uso didáctico**: en la primera visita de cada navegador se muestra un modal con el aviso legal, que debe aceptarse con «Entendido» para usar la aplicación.
 
 ### Orden de prioridad de las recomendaciones
 

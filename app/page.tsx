@@ -6,6 +6,7 @@ import RiskCard from "@/components/RiskCard";
 import BhutaniChart from "@/components/BhutaniChart";
 import ThemeToggle from "@/components/ThemeToggle";
 import ExportButton from "@/components/ExportButton";
+import DisclaimerModal from "@/components/DisclaimerModal";
 import { evaluatePatient } from "@/lib/clinical-logic";
 import type { ClinicalResult, PatientData } from "@/lib/types";
 
@@ -34,7 +35,7 @@ export default function Home() {
         </header>
 
         <div id="patient-report" className="flex flex-col gap-6">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[repeat(2,minmax(0,1fr))]">
             <PatientForm onSubmit={handleSubmit} />
             <div className="flex flex-col gap-6">
               <RiskCard result={result} />
@@ -45,6 +46,8 @@ export default function Home() {
 
         <ExportButton targetId="patient-report" disabled={!result} />
       </main>
+
+      <DisclaimerModal />
     </div>
   );
 }

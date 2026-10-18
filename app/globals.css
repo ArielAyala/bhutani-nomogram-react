@@ -25,6 +25,11 @@
   --text-secondary: #94a3b8; /* slate-400 */
 }
 
+/* Oculta el contenido hasta que se muestra el aviso de uso didáctico (primera visita). */
+html[data-disclaimer-pending] main {
+  visibility: hidden;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

@@ -189,7 +189,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
             onChange={(e) => setBilirubinValue(e.target.value)}
             aria-describedby="bilirubinValue-error"
             aria-invalid={Boolean(errors.bilirubinValue)}
-            className="flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+            className="min-w-0 flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
             placeholder="Valor"
           />
           <select
@@ -214,7 +214,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
       </div>
 
       {/* Tipo de Medición */}
-      <fieldset className="flex flex-col gap-2">
+      <fieldset className="flex min-w-0 flex-col gap-2">
         <legend className="text-sm font-medium text-slate-700 dark:text-slate-300">
           Tipo de Medición
         </legend>
@@ -314,7 +314,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
       </label>
 
       {/* Medición previa (tasa de ascenso) */}
-      <fieldset className="flex flex-col gap-2">
+      <fieldset className="flex min-w-0 flex-col gap-2">
         <legend className="text-sm font-medium text-slate-700 dark:text-slate-300">
           Medición previa (opcional, para tasa de ascenso)
         </legend>
@@ -328,7 +328,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
             onChange={(e) => setPreviousValue(e.target.value)}
             aria-describedby={errors.previousBilirubin ? "previousBilirubin-error" : undefined}
             aria-invalid={Boolean(errors.previousBilirubin)}
-            className="flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+            className="min-w-0 flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
             placeholder="Valor previo (misma unidad)"
           />
           <input
@@ -338,7 +338,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
             step="0.5"
             value={previousHours}
             onChange={(e) => setPreviousHours(e.target.value)}
-            className="flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+            className="min-w-0 flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
             placeholder="Horas desde la medición"
           />
         </div>
@@ -354,7 +354,7 @@ export default function PatientForm({ onSubmit }: PatientFormProps) {
       </fieldset>
 
       {/* Factores de Riesgo Neurotóxico */}
-      <fieldset className="flex flex-col gap-2">
+      <fieldset className="flex min-w-0 flex-col gap-2">
         <legend className="text-sm font-medium text-slate-700 dark:text-slate-300">
           Factores de Riesgo Neurotóxico
         </legend>
